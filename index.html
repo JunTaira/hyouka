@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>自己評価入力</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=yes" />
+</head>
+
+<script>
+	function openGoogleDriveFolder() {
+            // Google DriveフォルダのベースURL
+            const baseUrl = "https://drive.google.com/drive/u/0/folders/1zfNYsVO7XVonwJOK3TJ2wea-CA_ccyG-/";
+         
+            // 新しいタブでGoogle Driveフォルダを開く
+            window.open(baseUrl, '_blank');
+        }
+</script>
+
+<body>
+    <h1>自己点検・自己評価入力</h1>
+
+    <!-- フォルダを開くボタン -->
+	<h3>GoogleDrive内のフォルダを開いて今月の自己評価等を入力して下さい</h3>
+
+    <button onclick="openGoogleDriveFolder()" >フォルダを開く</button><br><br>
+
+<!-- 送信先と送り主のメールアドレスを入力するフォーム -->
+    <form id="emailForm">
+
+		<table border="1" cellspacing="1" cellpadding="1">
+		<tr><th>氏　名</th>
+		<th>メールアドレス</th>
+		<th>備　考</th>
+		</tr>
+
+		<tr><td><input type="emailFormName" id="senderName" placeholder="あなたの名前" required></td>
+			<td><input type="email" id="emailFrom" placeholder="sample@std.owjc.ac.jp" required></td>
+			<td>送り主</td>
+		</tr>
+
+		<tr><td><input type="emailFormName" id="tuterName" placeholder="チューターの名前" required></td>
+			<td><input type="email" id="emailTo" placeholder="sample@std.owjc.ac.jp" required></td>
+			<td>送り先</td>
+		</tr>
+
+		</table>
+
+        <!-- メッセージの入力 -->
+        <label for="message">【コメント】</label><br>
+        <textarea id="message" rows="4" cols="50" placeholder="チューターへメッセージを入力してください"></textarea><br>
+
+        <!-- フォームを送信 -->
+        <button type="button" onclick="sendEmail()">送　信</button>
+    </form>
+
+    <script>
+        function sendEmail() {
+            // 固定の件名
+            const subject = "自己評価の入力が終わりました。コメントの記入をお願いします";  // 入力が終わりました。
+
+            // 入力された送信先メールアドレス、送り主メールアドレス、メッセージを取得
+            const emailTo = document.getElementById("emailTo").value;
+			const senderName = document.getElementById("senderName").value;
+            const emailFrom = document.getElementById("emailFrom").value;
+            const message = document.getElementById("message").value;
+
+			// GoogleDriveのURL（リンク形式）
+            const fixedUrl = "https://drive.google.com/drive/u/0/folders/1zfNYsVO7XVonwJOK3TJ2wea-CA_ccyG-";  // URLを設定
+            const linkText = "自己評価の入力を終わりました。以下のアドレスからコメントを入力して下さい。"; // リンクの説明文
+
+            // メール送信のためのmailtoリンクを作成
+			const mailtoLink = `mailto:${emailTo}?subject=${encodeURIComponent(subject)}&body=送信者名: ${encodeURIComponent(senderName)}%0A送信者メール: ${emailFrom}%0A%0A${encodeURIComponent(message)}%0A%0A${encodeURIComponent(linkText)}:%0A${encodeURIComponent(fixedUrl)}`;
+
+            // メール送信を実行
+            window.location.href = mailtoLink;
+        }
+    </script>
+<p>Copyright(C)  2024 Okinawa Women's Junior College All Rights Reserved.</p>
+</body>
+</html>
